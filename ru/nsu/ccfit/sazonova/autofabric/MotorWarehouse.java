@@ -14,10 +14,15 @@ public class MotorWarehouse  extends Observable implements Warehouse {
 
     LinkedList<Motor> store;
     int size;
-    
+    public static int numberInAll = 0;
+
     public MotorWarehouse(int _size) {
         this.store = new LinkedList<Motor>();
         size = _size;
+    }
+
+    public void setNumberInAll(int _numberInAll) {
+        this.numberInAll = _numberInAll;
     }
 
     @Override
@@ -63,4 +68,5 @@ public class MotorWarehouse  extends Observable implements Warehouse {
     public Observable getObservable() {
         return this;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
 }

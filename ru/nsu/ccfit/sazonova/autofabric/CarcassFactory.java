@@ -7,7 +7,7 @@ package ru.nsu.ccfit.sazonova.autofabric;
  * Time: 21:20
  * To change this template use File | Settings | File Templates.
  */
-public class CarcassFactory extends Thread {
+public class CarcassFactory extends Thread implements Factory{
     private int frequency;
     private Warehouse warehouse;
     int count;
@@ -29,5 +29,10 @@ public class CarcassFactory extends Thread {
             }
             warehouse.add(new Carcass(count++));
         }
+    }
+
+    @Override
+    public int getNumberOfDetail() {
+        return this.count;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

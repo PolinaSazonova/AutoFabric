@@ -9,10 +9,9 @@ package ru.nsu.ccfit.sazonova.autofabric;
  */
 public class Accessories implements Detail {
     int id;
-    private static int count = 0;
 
-    public Accessories() {
-        this.id = count++;
+    public Accessories(int _count) {
+        this.id = _count++;
     }
 
     @Override

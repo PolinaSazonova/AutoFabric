@@ -7,10 +7,10 @@ package ru.nsu.ccfit.sazonova.autofabric;
  * Time: 21:27
  * To change this template use File | Settings | File Templates.
  */
-public class AccessoriesFactory extends Thread{
+public class AccessoriesFactory extends Thread implements Factory{
     private int frequency;
     private Warehouse warehouse;
-    int count;
+    static int count = 0;
 
     public AccessoriesFactory(int _frequency, Warehouse _warehouse) {
         super("AccessoriesFactory");
@@ -26,7 +26,12 @@ public class AccessoriesFactory extends Thread{
             }catch (InterruptedException e){
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            warehouse.add(new Accessories());
+            warehouse.add(new Accessories(count++));
         }
+    }
+
+    @Override
+    public int getNumberOfDetail() {
+        return this.count;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
