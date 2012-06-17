@@ -1,5 +1,8 @@
 package ru.nsu.ccfit.sazonova.autofabric;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Полина
@@ -11,11 +14,17 @@ public class Dealer extends Thread{
     private int frequency;
     private AutoWarehouse autoWarehouse;
     int numberOfSold = 1;
+    Logger logger;
+    boolean makeLog;
+    int id;
 
-    public Dealer(int _frequency, AutoWarehouse _autoWarehouse) {
+    public Dealer(int _frequency, AutoWarehouse _autoWarehouse, Logger _logger, boolean _makeLog, int _id) {
         super("Dealer");
         this.frequency = _frequency;
         this.autoWarehouse = _autoWarehouse;
+        logger = _logger;
+        makeLog = _makeLog;
+        id = _id;
     }
 
     @Override
@@ -26,8 +35,10 @@ public class Dealer extends Thread{
             }catch (InterruptedException e){
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            autoWarehouse.getDetail();
+            Auto auto = (Auto)autoWarehouse.getDetail();
             this.numberOfSold++;
+            if (makeLog)
+                logger.log(Level.INFO, "Dealer"+id+":"+"Auto"+auto.getId()+"(Body:"+auto.getCarcass().getId()+", Motor:"+auto.getCarcass().getId()+", Accessory:"+auto.getAccessories().getId()+")");
         }
     }
 }

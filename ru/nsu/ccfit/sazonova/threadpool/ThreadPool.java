@@ -10,8 +10,7 @@ import java.util.*;
  */
 
 public class ThreadPool implements TaskListener {
-   private static final int THREAD_COUNT = 3;
-   //private List allocatedThreads = new ArrayList();
+   private static int threadCount;
    private List taskQueue = new LinkedList();
    private Set availableThreads = new HashSet();
    ThreadGroup threadGroup = new ThreadGroup("myGroup");
@@ -55,8 +54,10 @@ public class ThreadPool implements TaskListener {
       }
    }
 
-   public ThreadPool() {
-      for (int i=0; i<THREAD_COUNT; i++)
+   public ThreadPool(int _threadCount) {
+       threadCount =_threadCount;
+
+      for (int i=0; i<threadCount; i++)
       {
          PooledThread pt =  new PooledThread("Performer "+i,taskQueue, threadGroup);
          availableThreads.add(pt);

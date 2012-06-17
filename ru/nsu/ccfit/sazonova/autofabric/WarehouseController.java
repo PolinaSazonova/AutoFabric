@@ -22,13 +22,14 @@ public class WarehouseController extends Thread{
                                AutoWarehouse _autoWarehouse,
                                MotorWarehouse _motorWarehouse,
                                CarcassWarehouse _carcassWarehouse,
-                               AccessoriesWarehouse _accessoriesWarehouse) {
+                               AccessoriesWarehouse _accessoriesWarehouse,
+                               int threadCount) {
         time = _time;
         this.autoWarehouse = _autoWarehouse;
         this.motorWarehouse = _motorWarehouse;
         this.carcassWarehouse = _carcassWarehouse;
         this.accessoriesWarehouse = _accessoriesWarehouse;
-        threadPool = new ThreadPool();
+        threadPool = new ThreadPool(threadCount);
         
     }
 
