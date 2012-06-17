@@ -14,6 +14,7 @@ public class AccessoriesWarehouse extends Observable implements Warehouse {
 
     LinkedList<Accessories> store;
     int size;
+    int numberInAll = 1;
 
     public AccessoriesWarehouse(int _size) {
         this.store = new LinkedList<Accessories>();
@@ -26,6 +27,11 @@ public class AccessoriesWarehouse extends Observable implements Warehouse {
     }
 
     @Override
+    public int getNumberInAll() {
+        return this.numberInAll;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     synchronized public void add(Detail detail) {
         while(isFull())
             try {
@@ -34,8 +40,11 @@ public class AccessoriesWarehouse extends Observable implements Warehouse {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         store.add((Accessories) detail);
+        setChanged();
+        notifyObservers("accessories");
         notifyAll();
         System.out.print(store.size());
+        this.numberInAll++;
     }
 
     @Override
@@ -51,6 +60,8 @@ public class AccessoriesWarehouse extends Observable implements Warehouse {
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        setChanged();
+        notifyObservers("accessories");
         notifyAll();
         return store.removeFirst();  //To change body of implemented methods use File | Settings | File Templates.
     }

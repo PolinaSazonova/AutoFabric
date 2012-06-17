@@ -14,6 +14,7 @@ public class CarcassWarehouse  extends Observable implements Warehouse {
 
     LinkedList<Carcass> store;
     int size;
+    int numberInAll = 1;
 
     @Override
     public Observable getObservable() {
@@ -24,6 +25,11 @@ public class CarcassWarehouse  extends Observable implements Warehouse {
 
         this.store = new LinkedList<Carcass>();
         size = _size;
+    }
+
+    @Override
+    public int getNumberInAll() {
+        return this.numberInAll;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -40,8 +46,11 @@ public class CarcassWarehouse  extends Observable implements Warehouse {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         store.add((Carcass) detail);
+        setChanged();
+        notifyObservers("carcass");
         notifyAll();
         System.out.print(store.size());
+        this.numberInAll++;
     }
 
     @Override
@@ -57,6 +66,8 @@ public class CarcassWarehouse  extends Observable implements Warehouse {
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        setChanged();
+        notifyObservers("carcass");
         notifyAll();
         return store.removeFirst();  //To change body of implemented methods use File | Settings | File Templates.
     }

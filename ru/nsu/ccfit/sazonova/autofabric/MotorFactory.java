@@ -27,7 +27,6 @@ public class MotorFactory extends Thread implements Factory{
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         warehouse.add(new Motor(count++));
-        warehouse.setNumberInAll(count); // !!!!!!!!!!
         }
     }
 

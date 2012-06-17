@@ -14,6 +14,7 @@ public class AutoWarehouse extends Observable implements Warehouse{
 
     LinkedList<Auto> store;
     int size;
+    int numberInAll = 1;
 
     @Override
     public Observable getObservable() {
@@ -23,6 +24,11 @@ public class AutoWarehouse extends Observable implements Warehouse{
     public AutoWarehouse(int _size) {
         this.store = new LinkedList<Auto>();
         size = _size;
+    }
+
+    @Override
+    public int getNumberInAll() {
+        return this.numberInAll;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -39,8 +45,11 @@ public class AutoWarehouse extends Observable implements Warehouse{
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         store.add((Auto) detail);
+        setChanged();
+        notifyObservers("auto");
         notifyAll();
         System.out.print(store.size());
+        this.numberInAll++;
     }
 
     @Override
@@ -60,6 +69,8 @@ public class AutoWarehouse extends Observable implements Warehouse{
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        setChanged();
+        notifyObservers("auto");
         notifyAll();
         return store.removeFirst();  //To change body of implemented methods use File | Settings | File Templates.
     }

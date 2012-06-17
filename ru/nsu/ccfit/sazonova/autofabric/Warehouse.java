@@ -10,6 +10,7 @@ import java.util.Observable;
  * To change this template use File | Settings | File Templates.
  */
 public interface Warehouse {
+    int getNumberInAll();
     boolean isFull();
     void add(Detail detail);
     int getCountOfDetails();

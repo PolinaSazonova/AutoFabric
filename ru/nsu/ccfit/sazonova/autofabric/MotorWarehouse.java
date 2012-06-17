@@ -14,15 +14,15 @@ public class MotorWarehouse  extends Observable implements Warehouse {
 
     LinkedList<Motor> store;
     int size;
-    public static int numberInAll = 0;
+    int numberInAll = 1;
 
     public MotorWarehouse(int _size) {
         this.store = new LinkedList<Motor>();
         size = _size;
     }
 
-    public void setNumberInAll(int _numberInAll) {
-        this.numberInAll = _numberInAll;
+    public int getNumberInAll() {
+        return numberInAll;
     }
 
     @Override
@@ -43,6 +43,7 @@ public class MotorWarehouse  extends Observable implements Warehouse {
         notifyObservers("motor");
         notifyAll();
         System.out.print(store.size());
+        this.numberInAll++;
     }
 
     @Override

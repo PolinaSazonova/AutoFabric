@@ -18,7 +18,11 @@ public class WarehouseController extends Thread{
     static int n;
     int time;
 
-    public WarehouseController(int _time, AutoWarehouse _autoWarehouse, MotorWarehouse _motorWarehouse, CarcassWarehouse _carcassWarehouse, AccessoriesWarehouse _accessoriesWarehouse) {
+    public WarehouseController(int _time,
+                               AutoWarehouse _autoWarehouse,
+                               MotorWarehouse _motorWarehouse,
+                               CarcassWarehouse _carcassWarehouse,
+                               AccessoriesWarehouse _accessoriesWarehouse) {
         time = _time;
         this.autoWarehouse = _autoWarehouse;
         this.motorWarehouse = _motorWarehouse;

@@ -3,6 +3,11 @@ package ru.nsu.ccfit.sazonova.autofabric;
 import ru.nsu.ccfit.sazonova.controller.Controller;
 import ru.nsu.ccfit.sazonova.view.View;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Properties;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Полина
@@ -12,24 +17,58 @@ import ru.nsu.ccfit.sazonova.view.View;
  */
 public class Main {
     public static void main(String args[]){
-        MotorWarehouse motorWarehouse = new MotorWarehouse(2);
+
+        InputStreamReader propReader = new InputStreamReader (Main.class.getResourceAsStream("data.properties"));
+        Properties properties = new Properties();
+        try {
+            properties.load(propReader);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        int motorWarehouseSize = Integer.parseInt(properties.getProperty("MotorWarehouseSize"));
+        int carcassWarehouseSize = Integer.parseInt(properties.getProperty("CarcassWarehouseSize"));
+        int accessoriesWarehouseSize = Integer.parseInt(properties.getProperty("AccessoriesWarehouseSize"));
+        int autoWarehouseSize = Integer.parseInt(properties.getProperty("AutoWarehouseSize"));
+        int accessoriesSuppliers = Integer.parseInt(properties.getProperty("AccessoriesSuppliers"));
+        int dealers = Integer.parseInt(properties.getProperty("Dealers"));
+
+        LinkedList<AccessoriesFactory> accessoriesSuppliersList = new LinkedList<AccessoriesFactory>();
+        LinkedList<Dealer> dealersList = new LinkedList<Dealer>();
+
+        MotorWarehouse motorWarehouse = new MotorWarehouse(motorWarehouseSize);
         MotorFactory motorFactory = new MotorFactory(5000, motorWarehouse);
         motorFactory.start();
 
-        CarcassWarehouse carcassWarehouse = new CarcassWarehouse(3);
+        CarcassWarehouse carcassWarehouse = new CarcassWarehouse(carcassWarehouseSize);
         CarcassFactory carcassFactory = new CarcassFactory(7000, carcassWarehouse);
         carcassFactory.start();
 
-        AccessoriesWarehouse accessoriesWarehouse = new AccessoriesWarehouse(4);
-        AccessoriesFactory accessoriesFactory = new AccessoriesFactory(10000, accessoriesWarehouse);
-        accessoriesFactory.start();
+        AccessoriesWarehouse accessoriesWarehouse = new AccessoriesWarehouse(accessoriesWarehouseSize);
+        for (int i = 0; i < accessoriesSuppliers; i++) {
+            AccessoriesFactory accessoriesFactory = new AccessoriesFactory(3000, accessoriesWarehouse);
+            accessoriesFactory.start();
+            accessoriesSuppliersList.add(accessoriesFactory);
+        }
 
-        AutoWarehouse autoWarehouse = new AutoWarehouse(5);
+        AutoWarehouse autoWarehouse = new AutoWarehouse(autoWarehouseSize);
+        
+        for (int i = 0; i < dealers; i++) {
+            Dealer dealer = new Dealer(15000, autoWarehouse);
+            dealer.start();
+            dealersList.add(dealer);
+        }
+        
+
 
         WarehouseController warehouseController = new WarehouseController(15000,autoWarehouse, motorWarehouse,carcassWarehouse, accessoriesWarehouse);
         warehouseController.start();
+
         View view = new View();
-        Controller controller = new Controller(motorWarehouse,view);
+        Controller controllerMotor = new Controller(motorWarehouse,view);
+        Controller controllerAccessories = new Controller(accessoriesWarehouse,view);
+        Controller controllerCarcass = new Controller(carcassWarehouse,view);
+        Controller controllerAuto = new Controller(autoWarehouse,view);
 
     }
 
