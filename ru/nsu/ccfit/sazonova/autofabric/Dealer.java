@@ -27,6 +27,10 @@ public class Dealer extends Thread{
         id = _id;
     }
 
+    public void setFrequency(int _frequency) {
+        this.frequency = _frequency;
+    }
+
     @Override
     synchronized public void run() {
         while (true){

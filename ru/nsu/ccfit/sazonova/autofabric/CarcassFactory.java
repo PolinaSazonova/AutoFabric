@@ -35,4 +35,11 @@ public class CarcassFactory extends Thread implements Factory{
     public int getNumberOfDetail() {
         return this.count;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void setFrequency(int _frequency) {
+        this.frequency = _frequency;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
+
+

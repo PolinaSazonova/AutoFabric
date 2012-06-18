@@ -8,7 +8,7 @@ package ru.nsu.ccfit.sazonova.autofabric;
  * To change this template use File | Settings | File Templates.
  */
 public class AccessoriesFactory extends Thread implements Factory{
-    private int frequency;
+    static int frequency;
     private Warehouse warehouse;
     static int count = 0;
 
@@ -33,5 +33,10 @@ public class AccessoriesFactory extends Thread implements Factory{
     @Override
     public int getNumberOfDetail() {
         return this.count;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setFrequency(int _frequency) {
+        frequency = _frequency;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

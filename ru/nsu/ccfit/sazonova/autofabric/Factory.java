@@ -9,4 +9,5 @@ package ru.nsu.ccfit.sazonova.autofabric;
  */
 public interface Factory {
     int getNumberOfDetail();
+    void setFrequency(int frequency);
 }

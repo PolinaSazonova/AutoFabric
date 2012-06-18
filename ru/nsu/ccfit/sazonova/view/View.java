@@ -1,10 +1,17 @@
 package ru.nsu.ccfit.sazonova.view;
 
+import ru.nsu.ccfit.sazonova.autofabric.AutoWarehouse;
+import ru.nsu.ccfit.sazonova.autofabric.Factory;
 import ru.nsu.ccfit.sazonova.autofabric.Warehouse;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,44 +43,90 @@ public class View extends JFrame{
     JLabel autoInAllCount;
     JLabel autoOnWarehouseText;
     JLabel autoOnWarehouseCount;
-    JSlider autoFrequencySlider;
 
     JLabel dealersTakesAutoText;
     JLabel dealersTakesAutoCount;
-    JSlider dealersFrequencySlider;
 
     JPanel generalPanel;
     
     JButton closeButton;
 
+    Map<String,LinkedList<Factory>> factoryMap;
+
+    public void takeFactoryMap(String args, LinkedList<Factory> _factory){
+        factoryMap.put(args, _factory);
+    }
+
     public View(){
+        factoryMap = new HashMap<String, LinkedList<Factory>>();
+
         motorInAllText = new JLabel("Motor in all");
         motorInAllCount = new JLabel("0");
         motorOnWarehouseText = new JLabel("Motor on warehouse");
         motorOnWarehouseCount = new JLabel("0");
-        motorFrequencySlider = new JSlider(0, 200000);
+        motorFrequencySlider = new JSlider(0, 50000);
+        motorFrequencySlider.setMajorTickSpacing(25000);
+        motorFrequencySlider.setMinorTickSpacing(5000);
+        motorFrequencySlider.setPaintTicks(true);
+        motorFrequencySlider.setPaintLabels(true);
+        motorFrequencySlider.setSnapToTicks(true);
+        motorFrequencySlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider slider = (JSlider)e.getSource();
+                int value = slider.getValue();
+                for(Factory d: factoryMap.get("MotorFactory"))
+                    d.setFrequency(value);
+            }
+        });
 
         carcassInAllText = new JLabel("Carcass in all");
         carcassInAllCount = new JLabel("0");
         carcassOnWarehouseText = new JLabel("Carcass on warehouse");
         carcassOnWarehouseCount = new JLabel("0");
-        carcassFrequencySlider = new JSlider(0, 200000);
+        carcassFrequencySlider = new JSlider(0, 50000);
+        carcassFrequencySlider.setMajorTickSpacing(25000);
+        carcassFrequencySlider.setMinorTickSpacing(5000);
+        carcassFrequencySlider.setPaintTicks(true);
+        carcassFrequencySlider.setPaintLabels(true);
+        carcassFrequencySlider.setSnapToTicks(true);
+        carcassFrequencySlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider slider = (JSlider)e.getSource();
+                int value = slider.getValue();
+                for(Factory d: factoryMap.get("CarcassFactory"))
+                    d.setFrequency(value);
+            }
+        });
 
         accessoriesInAllText = new JLabel("Accessories in all");
         accessoriesInAllCount = new JLabel("0");
         accessoriesOnWarehouseText = new JLabel("Accessories on warehouse");
         accessoriesOnWarehouseCount = new JLabel("0");
-        accessoriesFrequencySlider = new JSlider(0, 200000);
+        accessoriesFrequencySlider = new JSlider(0, 50000);
+        accessoriesFrequencySlider.setMajorTickSpacing(25000);
+        accessoriesFrequencySlider.setMinorTickSpacing(5000);
+        accessoriesFrequencySlider.setPaintTicks(true);
+        accessoriesFrequencySlider.setPaintLabels(true);
+        accessoriesFrequencySlider.setSnapToTicks(true);
+        accessoriesFrequencySlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider slider = (JSlider)e.getSource();
+                int value = slider.getValue();
+                for(Factory d: factoryMap.get("AccessoriesFactory"))
+                    d.setFrequency(value);
+            }
+        });
 
         autoInAllText = new JLabel("Auto in all");
         autoInAllCount = new JLabel("0");
         autoOnWarehouseText = new JLabel("Auto on warehouse");
         autoOnWarehouseCount = new JLabel("0");
-        autoFrequencySlider = new JSlider(0, 200000);
-        
+
         dealersTakesAutoText = new JLabel("Dealers takes auto");
         dealersTakesAutoCount = new JLabel("0");
-        dealersFrequencySlider = new JSlider(0, 200000);
 
         closeButton = new JButton("EXIT");
         closeButton.addMouseListener(new MouseAdapter() {
@@ -116,14 +169,13 @@ public class View extends JFrame{
         JPanel autoJPanel2 = new JPanel();
         autoJPanel2.add(autoOnWarehouseText);
         autoJPanel2.add(autoOnWarehouseCount);
-        JPanel autoJPanel3 = new JPanel();
-        autoJPanel3.add(autoFrequencySlider);
 
         JPanel dealersJPanel1 = new JPanel();
         dealersJPanel1.add(dealersTakesAutoText);
         dealersJPanel1.add(dealersTakesAutoCount);
-        JPanel dealersJPanel2 = new JPanel();
-        dealersJPanel2.add(dealersFrequencySlider);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(closeButton);
 
         generalPanel = new JPanel();
 
@@ -138,18 +190,17 @@ public class View extends JFrame{
         generalPanel.add(accessoriesJPanel3);
         generalPanel.add(autoJPanel1);
         generalPanel.add(autoJPanel2);
-        generalPanel.add(autoJPanel3);
         generalPanel.add(dealersJPanel1);
-        generalPanel.add(dealersJPanel2);
 
-        generalPanel.add(closeButton);
+        generalPanel.add(buttonPanel);
 
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        setTitle("Auto Factory");
         this.add(generalPanel);
-        this.setSize(300,700);
+        this.setSize(300,500);
     }
     
     public void update(Warehouse _warehouse, Object arg){
@@ -174,7 +225,7 @@ public class View extends JFrame{
         }
 
         if(("dealers").equals((String)arg))   {
-            dealersTakesAutoCount.setText(String.valueOf(_warehouse.getNumberInAll()));
+            dealersTakesAutoCount.setText(String.valueOf(((AutoWarehouse) _warehouse).getNumberWasTaken()));
         }
     }
 }

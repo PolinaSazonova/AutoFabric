@@ -15,6 +15,11 @@ public class AutoWarehouse extends Observable implements Warehouse{
     LinkedList<Auto> store;
     int size;
     int numberInAll = 1;
+    int numberWasTaken = 0;
+
+    public int getNumberWasTaken() {
+        return numberWasTaken;
+    }
 
     @Override
     public Observable getObservable() {
@@ -70,8 +75,9 @@ public class AutoWarehouse extends Observable implements Warehouse{
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         setChanged();
-        notifyObservers("auto");
+        notifyObservers("dealers");
         notifyAll();
+        this.numberWasTaken++;
         return store.removeFirst();  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
